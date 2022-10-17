@@ -1,0 +1,89 @@
+<html>
+<head>
+  <title>Wellington Decade Rainfall Average</title>
+  <style>
+
+    #output {font-family:Arial;}
+    .button {
+      border: none;
+      color: white;
+      padding: 16x 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 20px;
+      margin: 8px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .button1 {
+      background-color: #beced1;
+      color: black;
+      border: 0px solid #77888c;
+    }
+   .button1:hover {
+     background-color: #77888c;
+     color: #beced1;
+   }
+   .button2 {
+     background-color: #beced1;
+     color: black;
+     border: 0px solid #77888c;
+   }
+  .button2:hover {
+    background-color: #77888c;
+    color: #beced1;
+  }
+  .button3 {
+    background-color: #beced1;
+    color: black;
+    border: 0px solid #77888c;
+  }
+ .button3:hover {
+   background-color: #77888c;
+   color: #beced1;
+ }
+ .button4 {
+   background-color: #beced1;
+   color: black;
+   border: 0px solid #77888c;
+ }
+.button4:hover {
+  background-color: #77888c;
+  color: #beced1;
+}
+
+</style>
+  <link rel="stylesheet" href="./rain/style.css">
+</head>
+<body>
+<h1 style="font-family:georgia; color: #ffffff; text-align: center">Wellington Decade Rain Average</h1>
+<div>
+
+  <a href="file:///Users/21010799/Desktop/212-rain-tracker/1980/rainchart.html">
+  <button class="button button1">1980-1990</button>
+  </a>
+  <a href="file:///Users/21010799/Desktop/212-rain-tracker/1990/rainchart.html">
+  <button class="button button2">1990-2000</button>
+  </a>
+
+  <a href="">
+  <button class="button button3">2000-2010</button>
+  </a>
+
+  <a href="">
+  <button class="button button4">2010-2020</button>
+  </a>
+  </div>
+
+  <!-- partial:index.partial.html -->
+  <canvas id="c"> </canvas>
+
+  <!-- partial -->
+    <script  src="./rain/script.js"></script>
+
+</body>
+</html>
