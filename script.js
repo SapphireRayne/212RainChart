@@ -1,143 +1,31 @@
-const rain = []
-const drops = [];
-const gravity = 0.2;
-const wind = 0.015;
-const rain_chance = 0.6;
+// Chart.defaults.global.elements.rectangle.backgroundColor = '#FF0000';
 
-window.requestAnimFrame =
-  window.requestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  window.mozRequestAnimationFrame ||
-  window.oRequestAnimationFrame ||
-  window.msRequestAnimationFrame ||
-  function (callback) {
-    window.setTimeout(callback, 1000 / 60);
-  };
+var bar_ctx = document.getElementById('bar-chart').getContext('2d');
 
-const canvas = document.getElementById('c');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+var lightblue_white_gradient = bar_ctx.createLinearGradient(0, 0, 0, 1000);
+lightblue_white_gradient.addColorStop(0, 'white');
+lightblue_white_gradient.addColorStop(1, 'lightblue');
 
-//--------------------------------------------
-
-class Vector {
-  constructor (x = 0, y = 0) {
-    this.x = x;
-    this.y = y;
-  }
-
-  add (v) {
-    if (v.x != null && v.y != null) {
-      this.x += v.x;
-      this.y += v.y;
-    } else {
-      this.x += v;
-      this.y += v;
+var bar_chart = new Chart(bar_ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",],
+        datasets: [{
+            label: 'Monthly mm Average',
+            data: [75.71, 69.80, 87.06, 83.60, 112.85, 132.84, 137.45, 113.69, 97.83, 114.94, 96.95, 84.41,],
+						backgroundColor: lightblue_white_gradient,
+						hoverBackgroundColor: lightblue_white_gradient,
+						hoverBorderWidth: 4,
+						hoverBorderColor: 'white'
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
     }
-
-    return this;
-  }
-
-  copy () {
-    return new Vector(this.x, this.y);
-  }
-}
-
-//--------------------------------------------
-
-class Rain {
-  constructor () {
-    this.pos = new Vector(Math.random() * canvas.width, -50);
-    this.prev = this.pos;
-    this.vel = new Vector();
-  }
-
-  update () {
-    this.prev = this.pos.copy();
-    this.vel.y += gravity;
-    this.vel.x += wind;
-    this.pos.add(this.vel);
-  }
-
-  draw (ctx) {
-    ctx.beginPath();
-    ctx.moveTo(this.pos.x, this.pos.y);
-    ctx.lineTo(this.prev.x, this.prev.y);
-    ctx.stroke();
-  }
-}
-
-
-//--------------------------------------------
-
-class Drop {
-  constructor (x, y) {
-    const dist = Math.random() * 7;
-    const angle = Math.PI + Math.random() * Math.PI;
-
-    this.pos = new Vector(x, y);
-    this.vel = new Vector(
-      Math.cos(angle) * dist,
-      Math.sin(angle) * dist
-    );
-  }
-
-  update () {
-    this.vel.y += gravity;
-    this.vel.x *= 0.95;
-    this.vel.y *= 0.95;
-    this.pos.add(this.vel);
-  }
-
-  draw (ctx) {
-    ctx.beginPath();
-    ctx.arc(this.pos.x, this.pos.y, 1, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-//--------------------------------------------
-
-function update() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  let i = rain.length;
-  while (i--) {
-    const raindrop = rain[i];
-
-    raindrop.update();
-
-    if (raindrop.pos.y >= canvas.height) {
-      let n = Math.round(4 + Math.random() * 4);
-
-      while (n--)
-        drops.push(new Drop(raindrop.pos.x, canvas.height));
-      rain.splice(i, 1);
-    }
-
-    raindrop.draw(ctx);
-  }
-
-  i = drops.length;
-  while (i--) {
-    const drop = drops[i];
-    drop.update();
-    drop.draw(ctx);
-
-    if (drop.pos.y > canvas.height) drops.splice(i, 1);
-  }
-
-  if (Math.random() < rain_chance) rain.push(new Rain());
-
-  requestAnimFrame(update);
-}
-
-function init() {
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = '#89CFF0';
-  ctx.fillStyle = '#89CFF0';
-  update();
-}
-
-init();
+});
